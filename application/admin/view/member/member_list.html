@@ -6,7 +6,7 @@
     <div class="page-container">
 
         <!-- Page Sidebar -->
-{include file="public/_left"}
+        {include file="public/_left"}
         <!-- /Page Sidebar -->
         <!-- Page Content -->
         <div class="page-content">
@@ -14,48 +14,52 @@
             <div class="page-breadcrumbs">
                 <ul class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-home"></i>&nbsp;栏目管理
+                        <i class="fa fa-home"></i>&nbsp;会员管理
                     </li>
-                    <li>栏目列表</li>
+                    <li>会员列表</li>
                 </ul>
             </div>
             <!-- /Page Breadcrumb -->
             <!-- Page Body -->
             <div class="page-body">
-                <a href="{:url('admin/cate/add')}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;栏目添加</a>
+                <a href="{:url('admin/member/add')}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;会员添加</a>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="widget">
                             <div class="widget-header">
-                                <span class="widget-caption">栏目列表</span>
+                                <span class="widget-caption">会员列表</span>
                                 <div class="widget-buttons">
-<!--                                    <ul class="pagination pagination-sm">-->
-<!--                                        <li class="disabled"><a href="#">«</a></li>-->
-<!--                                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>-->
-<!--                                        <li><a href="#">2</a></li>-->
-<!--                                        <li><a href="#">3</a></li>-->
-<!--                                        <li><a href="#">»</a></li>-->
-<!--                                    </ul>-->
-<!--                                    render()为thinkhp5自带的分页功能，  replace为自己在common.php公共组件中将span标签换成a标签的功能-->
-                                    {$cates->render()|replace}
+                                    <!--                                    <ul class="pagination pagination-sm">-->
+                                    <!--                                        <li class="disabled"><a href="#">«</a></li>-->
+                                    <!--                                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>-->
+                                    <!--                                        <li><a href="#">2</a></li>-->
+                                    <!--                                        <li><a href="#">3</a></li>-->
+                                    <!--                                        <li><a href="#">»</a></li>-->
+                                    <!--                                    </ul>-->
+                                    <!--  render()为thinkhp5自带的分页功能，  replace为自己在common.php公共组件中将span标签换成a标签的功能-->
+                                    {$members->render()|replace}
                                 </div>
                             </div>
                             <div class="widget-body">
                                 <table class="table table-hover table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>排序</th>
-                                        <th>栏目名称</th>
+                                        <th>ID</th>
+                                        <th>用户名</th>
+                                        <th>昵称</th>
+                                        <th>邮箱</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {volist name="cates" id="vo"}
+                                    {volist name="members" id="vo"}
                                     <tr>
-                                        <td><input type="text" name="sort" value="{$vo.sort}" dataid ="{$vo.id}" size="1"></td>
-                                        <td>{$vo.catename}</td>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.username}</td>
+                                        <td>{$vo.nickname}</td>
+                                        <td>{$vo.email}</td>
                                         <td>
-                                            <a href="{:url('admin/cate/edit',['id'=>$vo.id])}" class="btn btn-azure btn-xs" id="edit">编辑</a>
+                                            <a href="{:url('admin/member/edit',['id'=>$vo.id])}" class="btn btn-azure btn-xs" id="edit">编辑</a>
                                             <a href="#" class="btn btn-danger btn-xs delete" dataid="{$vo.id}">删除</a>
                                         </td>
                                     </tr>
@@ -70,18 +74,16 @@
             <!-- /Page Body -->
         </div>
         <!-- /Page Content -->
-
     </div>
     <!-- /Page Container -->
     <!-- Main Container -->
-
 </div>
 
 {include file="public/_js"}
 <script>
     $(function () {
         $(".pagination").addClass('pagination-sm');
-        //排序
+        //编辑
         $('input[name=sort]').change(function () {
             var id = $(this).attr('dataid');
             var sort = $(this).val();
@@ -94,34 +96,34 @@
                 success:function (data) {
                     if (data.code == 1) {
                         layer.msg(data.msg,{
-                                icon:6,
-                                time:2000
-                            },function () {
-                                location.href = data.url;
-                            })
-                        }  else  {
-                            layer.open({
-                                title:"排序失败！！",
-                                content:data.msg,
-                                icon:5,
-                                anim:6
-                            })
+                            icon:6,
+                            time:2000
+                        },function () {
+                            location.href = data.url;
+                        })
+                    }  else  {
+                        layer.open({
+                            title:"排序失败！！",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
                     }
                 }
 
             });
             return false;
         });
-    //    删除
+        //    删除
         $('.delete').click(function () {
             var id = $(this).attr('dataid');
             layer.confirm("确认删除吗？",{
-                title:"栏目删除",
+                title:"会员删除",
                 icon:3
             },function (index) {
                 layer.close(index);
                 $.ajax({
-                    url:"{:url('admin/cate/delete')}",
+                    url:"{:url('admin/member/delete')}",
                     type:'post',
                     data:{id:id},
                     dataType:'json',
@@ -135,7 +137,7 @@
                             })
                         } else {
                             layer.open({
-                                title:'删除失败！',
+                                title:'会员删除失败！',
                                 content:data.msg,
                                 icon:5,
                                 anim:6

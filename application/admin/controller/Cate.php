@@ -39,4 +39,57 @@ class Cate extends Base
         }
         return view();
     }
+//    排序
+    public function sort()
+    {
+        if (request()->isAjax()) {
+            $data = [
+                'id' => input('post.id'),
+                'sort' => input('post.sort')
+            ];
+        }
+        $result = model('Cate')->sort($data);
+        if ($result == 1) {
+            return $this->success('排序成功!','admin/cate/catelist');
+        } else {
+            return $this->error($result);
+        }
+    }
+//    编辑
+    public function edit()
+    {
+        if (request()->isAjax()) {
+            $data = [
+                'id' => input('post.id'),
+                'catename' => input('post.catename')
+            ];
+            $result = model('Cate')->edit($data);
+            if ($result == 1) {
+                return $this->success("栏目编辑成功！",'admin/cate/catelist');
+            } else {
+                return $this->error($result);
+            }
+        }
+        $id = input('id');
+        $cateInfo = model('Cate') -> find($id);
+        $this->assign('cateInfo',$cateInfo);
+        return $this->view->fetch();
+    }
+
+//    删除
+    public function delete()
+    {
+        if (request()->isAjax()) {
+            $data = input('post.id');
+            $cateInfo = model('Cate')->with('article')->find($data);
+            $result = $cateInfo->together('article')->delete();
+            if ($result) {
+                return $this->success('删除成功!','admin/cate/catelist');
+            } else {
+                return $this->error($result);
+            }
+        }
+    }
+
 }
+

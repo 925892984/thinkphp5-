@@ -16,7 +16,8 @@ class Admin extends  Validate
     'email|邮箱' => 'require|email',
     'code|重置密码' => 'require',
     'catename|栏目名称' => 'require|unique:cate',
-    'sort|排序' => 'require'
+    'sort|排序' => 'require',
+     'id|ID' => 'require'
 ];
 //    登陆验证场景
 //    public function  sceneLogin()
@@ -32,8 +33,12 @@ class Admin extends  Validate
 //        重置密码验证场景
         'sceneReset' => ['code'],
 //        栏目添加验证
-        'sceneAdd' => ['catename','sort']
-
+        'sceneAdd' => ['catename','sort'],
+//        排序验证场景
+        'sceneSort' => ['sort','id'],
+//        编辑验证场景
+        'sceneEdit' => ['catename'],
+        'sceneAdminEdit' => ['username' => 'require|unique:admin','nickname','email'=>'require|unique:admin']
     ];
 
 //    注册场景验证

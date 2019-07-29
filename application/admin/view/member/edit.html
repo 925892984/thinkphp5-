@@ -29,26 +29,31 @@
                         <div class="widget radius-bordered">
                             <div class="widget-header bordered-bottom bordered-themeprimary">
                                 <span class="widget-caption">栏目添加</span>
-                            </div>
+                            </div>`
                             <div class="widget-body">
                                 <form class="form-horizontal listcate">
+                                    <input type="text" hidden name="id" value="{$memberInfo.id}">
                                     <div class="form-group">
-                                        <label for="catename" class="col-sm-2 control-label no-padding-right">栏目名称</label>
+                                        <label for="username" class="col-sm-2 control-label no-padding-right">用户名</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="catename" name="catename" placeholder="栏目名称" />
-                                            <p class="help-block">请输入栏目名称</p>
+                                            <input type="text" class="form-control" id="username" name="username" placeholder="输入会员账号" value="{$memberInfo.username}"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="sort" class="col-sm-2 control-label no-padding-right">排序</label>
+                                        <label for="nickname" class="col-sm-2 control-label no-padding-right">昵称</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="sort" name="sort" placeholder="数字" />
-                                            <p class="help-block">数字越小排名越靠前</p>
+                                            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="输入会员昵称" value="{$memberInfo.nickname}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="col-sm-2 control-label no-padding-right">会员邮箱</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="输入会员邮箱" value="{$memberInfo.email}"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-primary" id="cateAdd">添加</button>
+                                            <button type="submit" class="btn btn-primary" id="edit">更新</button>
                                         </div>
                                     </div>
                                 </form>
@@ -70,33 +75,32 @@
 {include file="public/_js"}
 <script>
     $(function () {
-        $('#cateAdd').click(function () {
-           $.ajax({
-               url:"{:url('admin/cate/add')}",
-               type:'post',
-               dataType:'json',
-               // 将表单内容序列化成一个字符串。
-               data:$('form').serialize(),
-               success:function (data) {
-                   if (data.code == 1) {
-                       layer.msg(data.msg,{
-                           icon:6,
-                           time:2000
-                       },function () {
-                           location.href = data.url;
-                       })
-                   }  else  {
-                       layer.open({
-                           title:"栏目添加失败！",
-                           content:data.msg,
-                           icon:5,
-                           anim:6
-                       })
-                   }
-                   // console.log(data);
-               }
+        $('#edit').click(function () {
+            $.ajax({
+                url:"{:url('admin/member/edit')}",
+                type:'post',
+                dataType:'json',
+                // 将表单内容序列化成一个字符串。
+                data:$('form').serialize(),
+                success:function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:2000
+                        },function () {
+                            location.href = data.url;
+                        })
+                    }  else  {
+                        layer.open({
+                            title:"会员更新失败！",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
 
-           })
+            })
             return false;
         });
     })

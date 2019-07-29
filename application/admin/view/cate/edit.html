@@ -17,7 +17,7 @@
                         <i class="fa fa-home"></i>&nbsp;栏目管理
                     </li>
                     <li>
-                        栏目添加
+                        栏目编辑
                     </li>
                 </ul>
             </div>
@@ -28,27 +28,21 @@
                     <div class="col-xs-12">
                         <div class="widget radius-bordered">
                             <div class="widget-header bordered-bottom bordered-themeprimary">
-                                <span class="widget-caption">栏目添加</span>
+                                <span class="widget-caption">栏目编辑</span>
                             </div>
                             <div class="widget-body">
                                 <form class="form-horizontal listcate">
+                                    <input type="hidden" name="id" value="{$cateInfo.id}" >
                                     <div class="form-group">
-                                        <label for="catename" class="col-sm-2 control-label no-padding-right">栏目名称</label>
+                                        <label for="catename" class="col-sm-2 control-label no-padding-right" >栏目名称</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="catename" name="catename" placeholder="栏目名称" />
+                                            <input type="text" class="form-control" id="catename" name="catename" placeholder="栏目名称" value="{$cateInfo.catename}" />
                                             <p class="help-block">请输入栏目名称</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="sort" class="col-sm-2 control-label no-padding-right">排序</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="sort" name="sort" placeholder="数字" />
-                                            <p class="help-block">数字越小排名越靠前</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-primary" id="cateAdd">添加</button>
+                                            <button type="submit" class="btn btn-primary" id="edit">编辑</button>
                                         </div>
                                     </div>
                                 </form>
@@ -70,9 +64,9 @@
 {include file="public/_js"}
 <script>
     $(function () {
-        $('#cateAdd').click(function () {
+        $('#edit').click(function () {
            $.ajax({
-               url:"{:url('admin/cate/add')}",
+               url:"{:url('admin/cate/edit')}",
                type:'post',
                dataType:'json',
                // 将表单内容序列化成一个字符串。
@@ -87,15 +81,13 @@
                        })
                    }  else  {
                        layer.open({
-                           title:"栏目添加失败！",
+                           title:"栏目编辑失败！",
                            content:data.msg,
                            icon:5,
                            anim:6
                        })
                    }
-                   // console.log(data);
                }
-
            })
             return false;
         });

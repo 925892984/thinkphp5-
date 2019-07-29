@@ -54,7 +54,7 @@ class Admin extends Model
 
     }
 //   重置密码
-    public function reset($data)
+    public function add($data)
     {
         $validata = new \app\common\validate\Admin();
         if(!$validata->scene('$sceneReset')->check($data)) {
@@ -74,6 +74,41 @@ class Admin extends Model
             return 1;
         } else {
             return '密码重置失败！';
+        }
+    }
+
+    //添加管理员
+    public  function adminAdd($data){
+        $validate = new \app\common\validate\Admin();
+        $result	= $validate->scene('sceneRegister')->check($data);
+        if (!$result) {
+            return $validate->getError();
+        }
+        $result = $this->allowField(true) -> save($data);
+        if($result) {
+            return 1;
+        } else {
+            return '添加失败!';
+        }
+
+    }
+
+    //更新管理员信息
+    public function edit($data)
+    {
+        $validate = new \app\common\validate\Admin();
+        if (!$validate->scene('sceneAdminEdit')->check($data)) {
+            return $validate->getError();
+        }
+        $adminInfo = $this->find($data['id']);
+        $adminInfo->nickname = $data['nickname'];
+        $adminInfo->username = $data['username'];
+        $adminInfo->email = $data['email'];
+        $result = $adminInfo -> save();
+        if ($result) {
+            return 1;
+        } else {
+            return '编辑失败！';
         }
     }
 }

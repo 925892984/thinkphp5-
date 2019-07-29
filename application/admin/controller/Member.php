@@ -62,8 +62,8 @@ class Member extends Base
     {
         if (request()->isAjax()) {
             $data = input('post.id');
-            $memberInfo = model('Member')->find($data);
-            $result = $memberInfo->delete();
+            $memberInfo = model('Member')->with('comment')->find($data);
+            $result = $memberInfo->together('comment')->delete();
             if ($result) {
                 return $this->success('删除成功!','admin/member/memberList');
             } else {

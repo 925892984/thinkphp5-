@@ -10,6 +10,12 @@ class Member extends Model
     //软删除
     use SoftDelete;
 
+    //关联评论表
+    public function comment()
+    {
+        return $this->hasMany('comment','member_id','id');
+    }
+
     //添加会员
     public function add($data)
     {

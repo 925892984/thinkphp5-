@@ -81,7 +81,10 @@ class Cate extends Base
     {
         if (request()->isAjax()) {
             $data = input('post.id');
-            $cateInfo = model('Cate')->with('article')->find($data);
+            $cateInfo = model('Cate')->with('article,article.comment')->find($data);
+            foreach ($cateInfo['article'] as $k => $v){
+                $v->together('comment')->delete();
+            }
             $result = $cateInfo->together('article')->delete();
             if ($result) {
                 return $this->success('删除成功!','admin/cate/catelist');

@@ -87,8 +87,8 @@ class Article extends Base
     {
         if (request()->isAjax()) {
             $data = input('post.id');
-            $articleInfo = model('Article')->find($data);
-            $result = $articleInfo->delete();
+            $articleInfo = model('Article')->with('comment')->find($data);
+            $result = $articleInfo->together('comment')->delete();
             if ($result) {
                 return $this->success('删除成功!','admin/article/articleList');
             } else {

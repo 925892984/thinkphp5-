@@ -68,3 +68,9 @@ function mailto($to,$title,$content){
 function replace($data) {
     return str_replace('span','a',$data);
 }
+
+//将字符串转为数组
+function strToArray($data)
+{
+    return explode('|',$data);
+}

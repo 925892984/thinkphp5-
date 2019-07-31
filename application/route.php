@@ -11,8 +11,13 @@
 use think\Route;
 
 //前台路由
+
 Route::rule('cate/:id','index/index/index','get');
 Route::rule('/','index/index/index','get');
+Route::rule('article-<id>','index/article/info','get');
+Route::rule('register','index/index/register','get|post');
+Route::rule('login','index/index/login','get|post');
+Route::rule('loginout','index/index/loginout','post');
 
 //后台路由
 Route::group('admin',function (){

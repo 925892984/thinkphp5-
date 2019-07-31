@@ -9,6 +9,7 @@ class Comment extends Base
     public function commentList()
     {
         $comments = model('Comment')->with('article,member')->order('create_time','desc')->paginate(10);
+        dump($comments);
         $this->assign('comments',$comments);
         return view();
     }

@@ -11,10 +11,11 @@ class Base extends Controller
     {
         $cates = model('Cate')->order('sort','asc')->select();
         $webInfo = model('System')->find();
+        $topArticle = model('Article')->where('is_top',1)->order('create_time','desc')->limit(10)->select();
 //        $this->assign('cates',$cates);
         //V5.0.4+ 开始，支持在任何地方使用静态方法进行模板变量赋值，例如：
         //think\View::share('name','value'); //	或者批量赋值 think\View::share(['name1'=>'value','name2'=>'value2']);
 
-        $this->view->share(['cates'=>$cates,'webInfo'=>$webInfo]);
+        $this->view->share(['cates'=>$cates,'webInfo'=>$webInfo,'topArticle'=>$topArticle]);
     }
 }

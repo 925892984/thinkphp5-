@@ -28,8 +28,13 @@
                 {/volist}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">登录</a></li>
-                <li><a href="#">注册</a></li>
+                {if session('?admin.id')}
+                <li><a href="#)}">{:session('admin.nickname')}</a></li>
+                <li><a href="#" id="loginout">退出</a></li>
+                {else/}
+                <li><a href="{:url('index/index/login')}">登录</a></li>
+                <li><a href="{:url('index/index/register')}">注册</a></li>
+                {/if}
                 <li><a href="#">投稿</a></li>
             </ul>
             <form action="#" class="navbar-form navbar-right">
@@ -45,16 +50,46 @@
 </nav>
 <div class="container">
     {block name="container"}
-
     {/block}
 </div>
-<div class="footer">
+<div class="footer navbar-fixed-bottom">
     <p>Copyright 2018 <a href="#">{$webInfo.copyright}</a> All Rights Reserved</p>
 </div>
 
 <script src="/static/index/js/jquery-3.3.1.min.js"></script>
 <script src="/static/index/js/bootstrap.min.js"></script>
+<script src="/static/lib/layer/layer.js"></script>
 {block name="js"}
+<script>
+    $(function () {
+        $('#loginout').click(function () {
+            $.ajax({
+                url:"{:url('index/index/loginout')}",
+                type:'POST',
+                dataType:'json',
+                success:function (data) {
+                    if(data.code == 1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:2000
+                        },function () {
+                            location.href = data.url
+                        })
+                    } else {
+                        layer.open({
+                            title:'退出失败',
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
+            })
+            return false;
+        });
+    });
+</script>
+
 {/block}
 </body>
 </html>
